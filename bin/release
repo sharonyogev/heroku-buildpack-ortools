@@ -2,4 +2,6 @@
 
 cat <<EOF
 ---
+config_vars:
+  PYTHONPATH: $PYTHONPATH:/app/.heroku/vendor/python_packages
 EOF

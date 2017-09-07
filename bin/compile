@@ -21,9 +21,9 @@ COMPILED_ORTOOLS="https://fanzonedev.s3.amazonaws.com/heroku_bundles/cedar-14/or
 
 echo "-----> heroku-buildpack-ortools: Running"
 
-if [ ! -d "$BUILD_DIR/.heroku/vendor/lib/ortools" ]; then
+if [ ! -d "$BUILD_DIR/.heroku/vendor/python_packages/ortools" ]; then
     echo "-----> Unpacking ortools-6.3"
-    mkdir -p $BUILD_DIR/.heroku/vendor
-    # Download and extract libffi into target vendor directory.
-    curl $COMPILED_ORTOOLS -s | tar zxv -C $BUILD_DIR/.heroku/vendor &> /dev/null
+    mkdir -p $BUILD_DIR/.heroku/vendor/python_packages
+    # Download and extract ortools into target vendor directory.
+    curl $COMPILED_ORTOOLS -s | tar zxv -C $BUILD_DIR/.heroku/vendor/python_packages &> /dev/null
 fi
