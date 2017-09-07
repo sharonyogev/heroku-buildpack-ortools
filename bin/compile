@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Taken from https://github.com/heroku/heroku-buildpack-python/blob/master/bin/steps/cryptography commit b0138c26e6238ec706aeedf9d8d654a527db3d42
+# I only copied this file and added the python libraries nexmo and pywebpush to the pip-grep line
+
+# This script serves as the Cryptography build step of the
+# [**Python Buildpack**](https://github.com/heroku/heroku-buildpack-python)
+# compiler.
+#
+# A [buildpack](https://devcenter.heroku.com/articles/buildpacks) is an
+# adapter between a Python application and Heroku's runtime.
+#
+# This script is invoked by [`bin/compile`](/).
+
+BUILD_DIR=$1
+
+# The location of the pre-compiled ortools binary.
+DEFAULT_PYTHON_STACK="cedar-14"
+[ ! "$STACK" ] && STACK=$DEFAULT_PYTHON_STACK
+COMPILED_ORTOOLS="https://fanzonedev.s3.amazonaws.com/heroku_bundles/cedar-14/ortools-6.3.tar.gz"
+
+echo "-----> heroku-buildpack-ortools: Running"
+
+if [ ! -d "$BUILD_DIR/.heroku/vendor/lib/ortools" ]; then
+    echo "-----> Unpacking ortools-6.3"
+    mkdir -p $BUILD_DIR/.heroku/vendor
+    # Download and extract libffi into target vendor directory.
+    curl $COMPILED_ORTOOLS -s | tar zxv -C $BUILD_DIR/.heroku/vendor &> /dev/null
+fi
