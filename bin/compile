@@ -19,6 +19,13 @@ DEFAULT_PYTHON_STACK="cedar-14"
 [ ! "$STACK" ] && STACK=$DEFAULT_PYTHON_STACK
 COMPILED_ORTOOLS="https://fanzonedev.s3.amazonaws.com/heroku_bundles/cedar-14/ortools-6.3.tar.gz"
 
+# Simply exporting PYTHONPATH doesn't seem to work. Instead, we create a
+# profile script that updates the PYTHONPATH. I saw this method used in
+# heroku-buildpack-apt.
+cat <<EOF >$BUILD_DIR/.profile.d/005_ortools_fix.sh
+export PYTHONPATH="\$PYTHONPATH:/app/.heroku/vendor/python_packages"
+EOF
+
 echo "-----> heroku-buildpack-ortools: Running"
 
 if [ ! -d "$BUILD_DIR/.heroku/vendor/python_packages/ortools" ]; then
